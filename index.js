@@ -95,7 +95,24 @@ function showNotes(){
 		let description = element.description;
 		let image = element.image;
 
-		if (image.includes('file')) {
+		if (image.includes("rgb")) {
+			notesView.innerHTML += 
+			`<div class="card">
+				<div class="card-color-top" style="background-color:${image}"></div>
+				<div class="card-body">
+					<h5 class="card-title">${title}</h5>
+					<p class="card-text">${description}</p>
+				</div>
+				<div class="note-config">
+					<div class="config-buttons">
+						<button class="btn btn-primary" onclick="expandNote('${title}')">View</button>
+						<button class="btn btn-primary btn-danger" onclick="deleteNote('${title}')"><i class="bi bi-trash"></i></button>
+					</div>
+				</div>
+			</div>`
+		}
+
+		else {
 			notesView.innerHTML += 
 			`<div class="card">
 				<img src="${image}" class="card-img-top" alt="...">
@@ -113,22 +130,6 @@ function showNotes(){
 			</div>`
 		}
 
-		else {
-			notesView.innerHTML += 
-			`<div class="card">
-				<div class="card-color-top" style="background-color:${image}"></div>
-				<div class="card-body">
-					<h5 class="card-title">${title}</h5>
-					<p class="card-text">${description}</p>
-				</div>
-				<div class="note-config">
-					<div class="config-buttons">
-						<button class="btn btn-primary" onclick="expandNote('${title}')">View</button>
-						<button class="btn btn-primary btn-danger" onclick="deleteNote('${title}')"><i class="bi bi-trash"></i></button>
-					</div>
-				</div>
-			</div>`
-		}
 	});
 }
 
@@ -165,10 +166,11 @@ function expandNote(title){
 			let descriptionExpanded = notes[i].description;
 			let imageExpanded = notes[i].image;
 			document.querySelector('.note-viewer').classList.add('active');
-			if (imageExpanded.includes("file")) {
-			document.querySelector('.note-viewer').innerHTML = 
+
+			if (imageExpanded.includes("rgb")){
+			document.querySelector('.note-viewer').innerHTML =
 			`<div class="note-expanded bg-dark">
-				<img src="${imageExpanded}">
+				<div class="color-expanded" style="background-color:${imageExpanded}"></div>
 				<div class="note-details">
 					<input value="${titleExpanded}" id="title-expanded" class="form-control mb-4" type="text" name="title" placeholder="Title...">
 					<textarea id="description-expanded" class="form-control mb-4">${descriptionExpanded}</textarea>
@@ -180,10 +182,10 @@ function expandNote(title){
 			</div>`
 			}
 
-			else{
-			document.querySelector('.note-viewer').innerHTML =
+			else {
+			document.querySelector('.note-viewer').innerHTML = 
 			`<div class="note-expanded bg-dark">
-				<div class="color-expanded" style="background-color:${imageExpanded}"></div>
+				<img src="${imageExpanded}">
 				<div class="note-details">
 					<input value="${titleExpanded}" id="title-expanded" class="form-control mb-4" type="text" name="title" placeholder="Title...">
 					<textarea id="description-expanded" class="form-control mb-4">${descriptionExpanded}</textarea>
