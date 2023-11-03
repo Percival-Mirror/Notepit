@@ -43,14 +43,10 @@ function showNotes(){
 	let notes = JSON.parse(localStorage.getItem('notes'));
 	let notesView = document.querySelector('#notes');
 
-	// for(let i = 0; i < notes.length; i++){
-	// 	console.log(notes[i]);
-	// }
-
-	notes.forEach((element) => {
-		let title = element.title;
-		let description = element.description;
-		let image = element.image;
+	for(let i = 0; i < notes.length; i++){
+		let title = notes[i].title;
+		let description = notes[i].description;
+		let image = notes[i].image;
 
 		if (image.includes('file')) {
 			notesView.innerHTML += 
@@ -86,7 +82,48 @@ function showNotes(){
 				</div>
 			</div>`
 		}
-	});
+	}
+
+	// notes.forEach((element) => {
+	// 	let title = element.title;
+	// 	let description = element.description;
+	// 	let image = element.image;
+
+	// 	if (image.includes('file')) {
+	// 		notesView.innerHTML += 
+	// 		`<div class="card">
+	// 			<img src="${image}" class="card-img-top" alt="...">
+	// 			<div class="card-body">
+	// 				<h5 class="card-title">${title}</h5>
+	// 				<p class="card-text">${description}</p>
+	// 			</div>
+
+	// 			<div class="note-config">
+	// 				<div class="config-buttons">
+	// 					<button class="btn btn-primary" onclick="expandNote('${title}')">View</button>
+	// 					<button class="btn btn-primary btn-danger" onclick="deleteNote('${title}')"><i class="bi bi-trash"></i></button>
+	// 				</div>
+	// 			</div>
+	// 		</div>`
+	// 	}
+
+	// 	else {
+	// 		notesView.innerHTML += 
+	// 		`<div class="card">
+	// 			<div class="card-color-top" style="background-color:${image}"></div>
+	// 			<div class="card-body">
+	// 				<h5 class="card-title">${title}</h5>
+	// 				<p class="card-text">${description}</p>
+	// 			</div>
+	// 			<div class="note-config">
+	// 				<div class="config-buttons">
+	// 					<button class="btn btn-primary" onclick="expandNote('${title}')">View</button>
+	// 					<button class="btn btn-primary btn-danger" onclick="deleteNote('${title}')"><i class="bi bi-trash"></i></button>
+	// 				</div>
+	// 			</div>
+	// 		</div>`
+	// 	}
+	// });
 }
 
 function deleteNote(title){
