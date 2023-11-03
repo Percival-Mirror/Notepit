@@ -8,6 +8,8 @@ const saveButton = document.querySelector('#save-note');
 
 saveButton.addEventListener('click', saveNote);
 
+// SAVE NOTE: Guarda los datos introducidos en un array y los almacena local.
+
 function saveNote(){
 	let title = document.querySelector('#title').value;
 	let description = document.querySelector('#description').value;
@@ -39,55 +41,18 @@ function saveNote(){
 	showNotes();
 }
 
+// SHOW NOTES: Muestra los objetos almacenados en el repositorio local en la interfaz grafica.
+
 function showNotes(){
 	let notes = JSON.parse(localStorage.getItem('notes'));
 	let notesView = document.querySelector('#notes');
 
-	for(let i = 0; i < notes.length; i++){
-		let title = notes[i].title;
-		let description = notes[i].description;
-		let image = notes[i].image;
+	// EL PROCESO PUEDE HACERSE CON FOR O FOR EACH, en este caso estoy usando foreach
 
-		if (image.includes('file')) {
-			notesView.innerHTML += 
-			`<div class="card">
-				<img src="${image}" class="card-img-top" alt="...">
-				<div class="card-body">
-					<h5 class="card-title">${title}</h5>
-					<p class="card-text">${description}</p>
-				</div>
-
-				<div class="note-config">
-					<div class="config-buttons">
-						<button class="btn btn-primary" onclick="expandNote('${title}')">View</button>
-						<button class="btn btn-primary btn-danger" onclick="deleteNote('${title}')"><i class="bi bi-trash"></i></button>
-					</div>
-				</div>
-			</div>`
-		}
-
-		else {
-			notesView.innerHTML += 
-			`<div class="card">
-				<div class="card-color-top" style="background-color:${image}"></div>
-				<div class="card-body">
-					<h5 class="card-title">${title}</h5>
-					<p class="card-text">${description}</p>
-				</div>
-				<div class="note-config">
-					<div class="config-buttons">
-						<button class="btn btn-primary" onclick="expandNote('${title}')">View</button>
-						<button class="btn btn-primary btn-danger" onclick="deleteNote('${title}')"><i class="bi bi-trash"></i></button>
-					</div>
-				</div>
-			</div>`
-		}
-	}
-
-	// notes.forEach((element) => {
-	// 	let title = element.title;
-	// 	let description = element.description;
-	// 	let image = element.image;
+	// for(let i = 0; i < notes.length; i++){
+	// 	let title = notes[i].title;
+	// 	let description = notes[i].description;
+	// 	let image = notes[i].image;
 
 	// 	if (image.includes('file')) {
 	// 		notesView.innerHTML += 
@@ -123,8 +88,51 @@ function showNotes(){
 	// 			</div>
 	// 		</div>`
 	// 	}
-	// });
+	// }
+
+	notes.forEach((element) => {
+		let title = element.title;
+		let description = element.description;
+		let image = element.image;
+
+		if (image.includes('file')) {
+			notesView.innerHTML += 
+			`<div class="card">
+				<img src="${image}" class="card-img-top" alt="...">
+				<div class="card-body">
+					<h5 class="card-title">${title}</h5>
+					<p class="card-text">${description}</p>
+				</div>
+
+				<div class="note-config">
+					<div class="config-buttons">
+						<button class="btn btn-primary" onclick="expandNote('${title}')">View</button>
+						<button class="btn btn-primary btn-danger" onclick="deleteNote('${title}')"><i class="bi bi-trash"></i></button>
+					</div>
+				</div>
+			</div>`
+		}
+
+		else {
+			notesView.innerHTML += 
+			`<div class="card">
+				<div class="card-color-top" style="background-color:${image}"></div>
+				<div class="card-body">
+					<h5 class="card-title">${title}</h5>
+					<p class="card-text">${description}</p>
+				</div>
+				<div class="note-config">
+					<div class="config-buttons">
+						<button class="btn btn-primary" onclick="expandNote('${title}')">View</button>
+						<button class="btn btn-primary btn-danger" onclick="deleteNote('${title}')"><i class="bi bi-trash"></i></button>
+					</div>
+				</div>
+			</div>`
+		}
+	});
 }
+
+// DELETE NOTE: Elimina el elemento seleccionado.
 
 function deleteNote(title){
 	let notes = JSON.parse(localStorage.getItem('notes'));
@@ -144,6 +152,8 @@ function deleteNote(title){
 function closeNote(){
 	document.querySelector('.note-viewer').classList.remove('active');
 }
+
+// EXPAND NOTE: Expande la nota para ver su contenido completo y poder editarla.
 
 function expandNote(title){
 	let notes = JSON.parse(localStorage.getItem('notes'));
@@ -200,11 +210,13 @@ function expandNote(title){
 	}
 }
 
-showNotes();
-
-imageButton.addEventListener('click', () => imageSelector.classList.add('active'));
+if (localStorage.getItem('notes') !=  null) {
+	showNotes();
+}
 
 // Image Selection
+
+imageButton.addEventListener('click', () => imageSelector.classList.add('active'));
 
 const colorPreview = document.querySelector('.preview-color');
 
